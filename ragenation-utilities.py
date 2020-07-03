@@ -82,12 +82,9 @@ async def make_an_announcement(ctx):
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, to_poll):
-    if client.get_channel(client.id_channel_polls).permissions_for(ctx.author).send_messages:
         message = await client.get_channel(client.id_channel_polls).send(to_poll)
         await message.add_reaction("👍")
         await message.add_reaction("👎")
-    else:
-        await ctx.send(f"You need the \"Send Message\" Permission in the channel that is currently labeled as the polls channel (<#{client.id_channel_polls}>)")
     
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
@@ -108,7 +105,12 @@ async def on_message(message):
 async def help(ctx):
     await ctx.send(embed=discord.Embed(
         title="Ragenation | Utilities Commands",
-        description=""
+        description="`.suggest <ToSuggest>` : Suggest something, anything\n`.announce <ToAnnounce>` : Announce something in this server\n`.help` : yes\n`.serverStatus` : Status of the minecraft server\n`.SetChannel [\"announcementsChannel\" or \"PollsChannel\" or \"BotLogsChannel\"] <TextChannelToSet>` : This is for telling me which channel is for what",
+        color=discord.Color.from_rgb(0, 0, 25)
+    ).set_thumbnail(
+        url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
+    ).set_footer(
+        text="For support, please contact Zacky#9543"
     ))
     
 client.run(client_secret)
