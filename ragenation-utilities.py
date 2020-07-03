@@ -15,7 +15,7 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(literal_eval(os.getenv('API_SHEEETS_CREDS')), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_SHEEETS_CREDS')), scopes=scope) 
 client = gspread.authorize(creds)
 sheet = client.open("api-sheets-rn").sheet1
 
