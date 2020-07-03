@@ -15,7 +15,7 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_SHEEETS_CREDS')), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_DISCORD_BOTTOKEN')), scopes=scope) 
 client = gspread.authorize(creds)
 sheet = client.open("api-sheets-rn").sheet1
 
@@ -29,6 +29,8 @@ def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_announcements = sheet.cell(2, 1).value
     client.id_channel_polls = sheet.cell(3, 1).value
     client.minecraft_server_members_count = int(sheet.cell(4, 1).value)
+    
+sync_channel_ids()
 
 @cleint.event
 async def on_ready():
@@ -39,11 +41,13 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     
     if channel_to_set_for.lower in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
         sheet.update_cell(1, 1, channel_to_set.id)
+        await ctx.send("Done")
     elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         sheet.update_cell(2, 1, channel_to_set.id)
-    elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         await ctx.send("Done")
+    elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         sheet.update_cell(3, 1, channel_to_set.id)
+        await ctx.send("Done")
         
     sync_channel_ids()
                 
