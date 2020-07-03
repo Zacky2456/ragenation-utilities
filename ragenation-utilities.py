@@ -42,6 +42,7 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         sheet.update_cell(2, 1, channel_to_set.id)
     elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
+        await ctx.send("Done")
         sheet.update_cell(3, 1, channel_to_set.id)
         
     sync_channel_ids()
