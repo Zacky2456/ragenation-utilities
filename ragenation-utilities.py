@@ -5,6 +5,7 @@ import asyncio
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from ast import literal_eval
 
 # Google Sheets Api Initializing
 scope = [
@@ -14,13 +15,12 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(os.getenv('API_SHEEETS_CREDS')), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(literal_eval(os.getenv('API_SHEEETS_CREDS')), scopes=scope) 
 client = gspread.authorize(creds)
 sheet = client.open("api-sheets-rn").sheet1
 
 # Setting up the discord client
 client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/'), case_insensitive=True)
-client_secret = "NzI4MjE0MDgyNzQxODYyNDMx.Xv3I4w.Ev3Dvi5uzy-LTBgH-Z-67JvWJXA"
 client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 
