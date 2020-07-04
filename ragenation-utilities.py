@@ -6,6 +6,7 @@ import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from ast import literal_eval
+from urllib.request import urlopen
 
 # Google Sheets Api Initializing
 scope = [
@@ -15,7 +16,7 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_SHEETS_CREDS')), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(node_or_string=urlopen(url=os.getenv('API_SHEETS_CREDSLINK')).read().decode()), scopes=scope) 
 client = gspread.authorize(creds)
 sheet = client.open("api_sheets_rn").sheet1
 
@@ -30,8 +31,7 @@ def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
     client.id_channel_announcements = int(sheet.cell(2, 1).value)
     client.id_channel_polls = int(sheet.cell(3, 1).value)
-    client.minecraft_server_members_count = int(sheet.cell(4, 1).value)
-    return int(sheet.cell(1, 1).value, sheet.cell(2, 1).value, sheet.cell(3, 1).value, sheet.cell(4, 1).value)
+    return int(sheet.cell(1, 1).value, sheet.cell(2, 1).value, sheet.cell(3, 1).value)
 
 sync_channel_ids()
 
@@ -102,18 +102,14 @@ async def create_poll(ctx, to_poll):
     
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
+    client.minecraft_server_stats = literal_eval(node_or_string=urlopen(url="https://api.mcsrvstat.us/2/play.ragenation.tk").read().decode().replace('false', 'False').replace('true', 'True'))
+    client.minecraft_server_members_count = client.minecraft_server_stats['players']['online']
+    
     await ctx.send(embed=discord.Embed(
         title="Minecraft Server online",
         description=f"**{client.minecraft_server_members_count}** Number of members online!",
         color=discord.Color.blue()
     ))
-
-@client.event
-async def on_message(message):
-    if message.author.id == 725965234338267198 and message.content.startswith("Number of online Members = "):
-        sheet.update_cell(4, 1, message.content[-3:])
-    
-    await client.process_commands(message)
     
 @client.command()
 async def help(ctx):
