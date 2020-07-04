@@ -31,7 +31,7 @@ def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
     client.id_channel_announcements = int(sheet.cell(2, 1).value)
     client.id_channel_polls = int(sheet.cell(3, 1).value)
-    return int(sheet.cell(1, 1).value, sheet.cell(2, 1).value, sheet.cell(3, 1).value)
+    return int(sheet.cell(1, 1).value), int(sheet.cell(2, 1).value), int(sheet.cell(3, 1).value)
 
 sync_channel_ids()
 
@@ -51,7 +51,7 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     elif channel_to_set_for.lower() in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         sheet.update_cell(2, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
-    elif channel_to_set_for.lower() in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
+    elif channel_to_set_for.lower() in ('polls', 'pollschannel', 'pollchannel', 'suggestionschannel', 'suggestions'):
         sheet.update_cell(3, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
         
