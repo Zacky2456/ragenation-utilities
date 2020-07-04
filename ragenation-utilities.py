@@ -15,38 +15,44 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_DISCORD_BOTTOKEN')), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(os.getenv('API_SHEETS')), scopes=scope) 
 client = gspread.authorize(creds)
-sheet = client.open("api-sheets-rn").sheet1
+sheet = client.open("api_sheets_rn").sheet1
 
 # Setting up the discord client
 client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/'), case_insensitive=True)
 client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
+client.id_user_zacky = 625987962781433867
+
 
 def sync_channel_ids(client=client, sheet=sheet):
-    client.id_channel_logs = sheet.cell(1, 1).value
-    client.id_channel_announcements = sheet.cell(2, 1).value
-    client.id_channel_polls = sheet.cell(3, 1).value
+    client.id_channel_logs = int(sheet.cell(1, 1).value)
+    client.id_channel_announcements = int(sheet.cell(2, 1).value)
+    client.id_channel_polls = int(sheet.cell(3, 1).value)
     client.minecraft_server_members_count = int(sheet.cell(4, 1).value)
-    
+    return int(sheet.cell(1, 1).value, sheet.cell(2, 1).value, sheet.cell(3, 1).value, sheet.cell(4, 1).value)
+
 sync_channel_ids()
 
-@cleint.event
+@client.event
 async def on_ready():
-    await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
+    try:
+        await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
+    finally:
+        print(sync_channel_ids())
     
 @client.command(aliases=['setchannel'])
 async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChannel):
     
-    if channel_to_set_for.lower in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
-        sheet.update_cell(1, 1, channel_to_set.id)
+    if channel_to_set_for.lower() in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
+        sheet.update_cell(1, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
-    elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
-        sheet.update_cell(2, 1, channel_to_set.id)
+    elif channel_to_set_for.lower() in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
+        sheet.update_cell(2, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
-    elif channel_to_set_for.lower in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
-        sheet.update_cell(3, 1, channel_to_set.id)
+    elif channel_to_set_for.lower() in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
+        sheet.update_cell(3, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
         
     sync_channel_ids()
@@ -65,14 +71,17 @@ async def clear_error(ctx, error):
             description="Please send the text channel and ONLY the text channel to set to",
             color=discord.Color.red()
         ))
+    else:
+        await client.get_user(client.id_user_zacky).send(error)
 
 @client.command(aliases=["announce", "makeannouncement"])
-async def make_an_announcement(ctx):
+async def make_an_announcement(ctx, *, to_announce):
     if client.get_channel(client.id_channel_announcements).permissions_for(ctx.author).send_messages:
         try: 
-            title, description = ctx.message.content.split(",")
+            title, description = to_announce.split(",")
         except Exception as e:
             await ctx.send(".announce This is a title, This is a description seperated by a comma there. only use one comma in your command")
+            return
         
         try:
             await client.get_channel(client.id_channel_announcements).send(embed=discord.Embed(
@@ -93,7 +102,7 @@ async def create_poll(ctx, to_poll):
     
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
-    await ctx.send(discord.Embed(
+    await ctx.send(embed=discord.Embed(
         title="Minecraft Server online",
         description=f"**{client.minecraft_server_members_count}** Number of members online!",
         color=discord.Color.blue()
