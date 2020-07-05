@@ -79,7 +79,7 @@ async def make_an_announcement(ctx, *, to_announce):
         except Exception as e:
             await ctx.send(".announce This is a title, This is a description seperated by a comma there. only use one comma in your command")
             return
-        
+    
         try:
             await client.get_channel(client.id_channel_announcements).send(embed=discord.Embed(
                 title=title,
@@ -106,6 +106,8 @@ async def count_members(ctx):
         title="Minecraft Server online",
         description=f"**{client.minecraft_server_members_count}** Number of members online!",
         color=discord.Color.blue()
+    ).set_footer(
+        text="this status message will be refined and detailed soon, in a day or two"
     ))
     
 @client.command()
