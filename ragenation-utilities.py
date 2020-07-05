@@ -21,7 +21,7 @@ client = gspread.authorize(creds)
 sheet = client.open("api_sheets_rn").sheet1
 
 # Setting up the discord client
-client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/'), case_insensitive=True)
+client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/', '-', 'r-), case_insensitive=True)
 client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 client.id_user_zacky = 625987962781433867
