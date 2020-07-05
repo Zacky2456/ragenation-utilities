@@ -26,7 +26,6 @@ client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 client.id_user_zacky = 625987962781433867
 
-
 def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
     client.id_channel_announcements = int(sheet.cell(2, 1).value)
