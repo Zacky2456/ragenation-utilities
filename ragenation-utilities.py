@@ -33,8 +33,6 @@ def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_polls = int(sheet.cell(3, 1).value)
     return int(sheet.cell(1, 1).value), int(sheet.cell(2, 1).value), int(sheet.cell(3, 1).value)
 
-sync_channel_ids()
-
 @client.event
 async def on_ready():
     try:
