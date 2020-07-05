@@ -93,9 +93,9 @@ async def make_an_announcement(ctx, *, to_announce):
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, to_poll):
-        message = await client.get_channel(client.id_channel_polls).send(to_poll)
-        await message.add_reaction("👍")
-        await message.add_reaction("👎")
+    message = await client.get_channel(client.id_channel_polls).send(to_poll)
+    await message.add_reaction("👍")
+    await message.add_reaction("👎")
     
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
