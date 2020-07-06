@@ -38,8 +38,9 @@ async def on_ready():
         await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
     finally:
         print(sync_channel_ids())
-    
+    discord.Permissions
 @client.command(aliases=['setchannel'])
+@commands.has_guild_permissions(manage_channels=True)
 async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChannel):
     
     if channel_to_set_for.lower() in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
@@ -66,6 +67,12 @@ async def clear_error(ctx, error):
         await ctx.send(embed=discord.Embed(
             title="Type Error!",
             description="Please send the text channel and ONLY the text channel to set to",
+            color=discord.Color.red()
+        ))
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send(embed=discord.Embed(
+            title="Missng Permissions!",
+            description="You need to have the ***`Manage Channels`*** Permissions in order to use this command!",
             color=discord.Color.red()
         ))
     else:
@@ -100,7 +107,6 @@ async def create_poll(ctx, to_poll):
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
     client.minecraft_server_stats = literal_eval(node_or_string=urlopen(url="https://api.mcsrvstat.us/2/play.ragenation.tk").read().decode().replace('false', 'False').replace('true', 'True'))
-    client.minecraft_server_members_count = client.minecraft_server_stats['players']['online']
     
     await ctx.send(embed=discord.Embed(
         title="Server Status",
