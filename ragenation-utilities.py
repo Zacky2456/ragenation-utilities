@@ -103,13 +103,26 @@ async def count_members(ctx):
     client.minecraft_server_members_count = client.minecraft_server_stats['players']['online']
     
     await ctx.send(embed=discord.Embed(
-        title="Minecraft Server online",
-        description=f"**{client.minecraft_server_members_count}** Number of members online!",
+        title="Server Status",
         color=discord.Color.blue()
-    ).set_footer(
-        text="this status message will be refined and detailed soon, in a day or two"
+    ).add_field(
+        name='Server IP',
+        value='play.ragenation.tk',
+        inline=True
+    ).add_field(
+        name='version',
+        value=f"{client.minecraft_server_stats['software']} {client.minecraft_server_stats['version']}",
+        inline=True
+    ).add_field(
+        name='Online Players',
+        value=client.minecraft_server_stats['players']['online'],
+        inline=True
+    ).add_field(
+        name='Max Players',
+        value=client.minecraft_server_stats['players']['max'],
+        inline=True
     ))
-    
+
 @client.command()
 async def help(ctx):
     await ctx.send(embed=discord.Embed(
