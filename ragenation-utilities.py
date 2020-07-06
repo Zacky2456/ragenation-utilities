@@ -127,7 +127,7 @@ async def count_members(ctx):
 async def help(ctx):
     await ctx.send(embed=discord.Embed(
         title="Ragenation | Utilities Commands",
-        description="`.suggest <ToSuggest>` : Suggest something, anything\n`.announce <ToAnnounce>` : Announce something in this server\n`.help` : yes\n`.serverStatus` : Status of the minecraft server\n`.SetChannel [\"announcementsChannel\" or \"PollsChannel\" or \"BotLogsChannel\"] <TextChannelToSet>` : This is for telling me which channel is for what",
+        description="`-suggest <ToSuggest>` : Suggest something, anything\n`-announce <ToAnnounce>` : Announce something in this server\n`-help` : yes\n`-Status` : Status of the minecraft server\n`-SetChannel [\"announcementsChannel\" or \"PollsChannel\" or \"BotLogsChannel\"] <TextChannelToSet>` : This is for telling me which channel is for what",
         color=discord.Color.from_rgb(0, 0, 25)
     ).set_thumbnail(
         url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
