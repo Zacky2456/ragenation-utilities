@@ -140,6 +140,10 @@ async def count_members(ctx):
         name='Max Players',
         value=client.minecraft_server_stats['players']['max'],
         inline=True
+    ).add_field(
+        name='List of online Players',
+        value=client.minecraft_server_stats['players']['list'],
+        inline=True
     ).set_thumbnail(
         url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
     ))
