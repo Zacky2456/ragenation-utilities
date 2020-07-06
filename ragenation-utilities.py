@@ -7,6 +7,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from ast import literal_eval
 from urllib.request import urlopen
+import random
 
 # Google Sheets Api Initializing
 scope = [
@@ -106,7 +107,11 @@ async def make_an_announcement(ctx, *, to_announce):
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, to_poll):
-    message = await client.get_channel(client.id_channel_polls).send(to_poll)
+    message = await client.get_channel(client.id_channel_polls).send(embed=discord.Embed(
+        title=f"{ctx.author.mention} has suggested the following thing:",
+        description=to_poll,
+        color=discord.Color.from_hsv(random.random(), 1, 1)
+    ))
     await message.add_reaction("👍")
     await message.add_reaction("👎")
     
