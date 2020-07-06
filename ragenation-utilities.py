@@ -106,9 +106,9 @@ async def make_an_announcement(ctx, *, to_announce):
         await ctx.send(f"You need the \"Send Message\" Permission in the channel that is currently labeled as the announcements channel (<#{client.id_channel_announcements}>)")
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
-async def create_poll(ctx, to_poll):
+async def create_poll(ctx, *, to_poll):
     message = await client.get_channel(client.id_channel_polls).send(embed=discord.Embed(
-        title=f"{ctx.author.mention} has suggested the following thing:",
+        title=f"{ctx.author} has suggested the following thing:",
         description=to_poll,
         color=discord.Color.from_hsv(random.random(), 1, 1)
     ).set_footer(
