@@ -112,7 +112,7 @@ async def create_poll(ctx, *, to_poll):
         description=to_poll,
         color=discord.Color.from_hsv(random.random(), 1, 1)
     ).set_footer(
-        text="React below whether you agree or not!"
+        text="React below whether you agree or not! and downvote if this message makes no sense."
     ))
     await message.add_reaction("👍")
     await message.add_reaction("👎")
