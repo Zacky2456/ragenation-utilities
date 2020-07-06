@@ -111,6 +111,8 @@ async def create_poll(ctx, to_poll):
         title=f"{ctx.author.mention} has suggested the following thing:",
         description=to_poll,
         color=discord.Color.from_hsv(random.random(), 1, 1)
+    ).set_footer(
+        text="React below whether you agree or not!"
     ))
     await message.add_reaction("👍")
     await message.add_reaction("👎")
