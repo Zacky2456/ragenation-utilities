@@ -43,6 +43,12 @@ async def on_ready():
 @commands.has_guild_permissions(manage_channels=True)
 async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChannel):
     
+    done_embed = discord.Embed(
+        title="Success ✅",
+        description=f"✅ <#{channel_to_set.id}> is now set as the channel for {channel_to_set_for}",
+        color=discord.Color.green()
+    )
+    
     if channel_to_set_for.lower() in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
         sheet.update_cell(1, 1, "'"+str(channel_to_set.id))
         await ctx.send("Done")
