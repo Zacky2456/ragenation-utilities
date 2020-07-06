@@ -51,13 +51,13 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     
     if channel_to_set_for.lower() in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
         sheet.update_cell(1, 1, "'"+str(channel_to_set.id))
-        await ctx.send("Done")
+        await ctx.send(embed=done_embed)
     elif channel_to_set_for.lower() in ('announcements', 'announcement', 'announcementschannel', 'announcementchannel'):
         sheet.update_cell(2, 1, "'"+str(channel_to_set.id))
-        await ctx.send("Done")
+        await ctx.send(embed=done_embed)
     elif channel_to_set_for.lower() in ('polls', 'pollschannel', 'pollchannel', 'suggestionschannel', 'suggestions'):
         sheet.update_cell(3, 1, "'"+str(channel_to_set.id))
-        await ctx.send("Done")
+        await ctx.send(embed=done_embed)
         
     sync_channel_ids()
                 
