@@ -41,6 +41,7 @@ async def on_ready():
     finally:
         print(sync_channel_ids())
     discord.Permissions
+
 @client.command(aliases=['setchannel'])
 @commands.has_guild_permissions(manage_channels=True)
 async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChannel):
