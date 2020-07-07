@@ -96,7 +96,7 @@ async def make_an_announcement(ctx, *, to_announce):
             return
     
         try:
-            await client.get_channel(client.id_channel_announcements).send(embed=discord.Embed(
+            await client.get_channel(client.id_channel_announcements).send(content="@everyone", embed=discord.Embed(
                 title=title,
                 description=description,
                 color=discord.Color.green()
