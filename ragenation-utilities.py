@@ -26,6 +26,7 @@ client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/', '-', 'r-'), cas
 client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 client.id_user_zacky = 625987962781433867
+client.id_channel_suggestion_submittions = 726611465854779433
 
 def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
@@ -108,7 +109,7 @@ async def make_an_announcement(ctx, *, to_announce):
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, *, to_poll):
-    if ctx.channel.id == client.id_channel_polls:
+    if ctx.channel.id == client.id_channel_suggestion_submittions:
         message = await client.get_channel(client.id_channel_polls).send(embed=discord.Embed(
             title=f"{ctx.author} has suggested the following thing:",
             description=to_poll,
@@ -119,10 +120,14 @@ async def create_poll(ctx, *, to_poll):
         await message.add_reaction("👍")
         await message.add_reaction("👎")
         await ctx.message.delete()
+        await ctx.send(embed=discord.Embed(
+            description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
+            color = discord.Color.green()
+        ))
     else:
         await ctx.send(embed=discord.Embed(
             title='Wrong channel!',
-            description=f'You can only use this command in <#{client.id_channel_polls}>!'
+            description=f'You can only use this command in <#{client.id_channel_suggestion_submittions}>!'
         ))
     
 @client.command(aliases=['status', 'serverstatus', 'members'])
