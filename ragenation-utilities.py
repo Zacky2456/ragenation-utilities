@@ -136,10 +136,12 @@ async def create_poll(ctx, *, to_poll):
         try:
             await ctx.message.delete()
         finally:
-            await ctx.send(embed=discord.Embed(
-                description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
-                color = discord.Color.green()
-            ), delete_after=120)
+            await ctx.send(
+                embed=discord.Embed(
+                    description=f"✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
+                    color = discord.Color.green()
+                ), delete_after=120
+            )
     else:
         await ctx.send(embed=discord.Embed(
             title='Wrong channel!',
