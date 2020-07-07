@@ -43,7 +43,7 @@ async def on_ready():
     try:
         await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
     finally:
-        pass
+        await client.change_presence(activity=discord.Game(name="on the minecraft server: play.ragenation.tk"))
 
 @client.command()
 @commands.check(is_zacky)
