@@ -121,6 +121,7 @@ async def create_poll(ctx, *, to_poll):
         await message.add_reaction("👎")
         await ctx.message.delete()
         await ctx.send(embed=discord.Embed(
+            title="Submitted!",
             description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
             color = discord.Color.green()
         ))
