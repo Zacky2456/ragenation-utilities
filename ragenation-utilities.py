@@ -50,6 +50,7 @@ async def on_ready():
 async def delete_message(ctx, channel : discord.TextChannel, message_id : int):
     msg = await channel.fetch_message(message_id)
     await msg.delete()
+    await ctx.send(f'{msg} deleted successfully')
         
 @delete_message.error
 async def clear_error(ctx, error):
