@@ -119,6 +119,7 @@ async def create_poll(ctx, *, to_poll):
         ))
         await message.add_reaction("👍")
         await message.add_reaction("👎")
+        await ctx.message.delete()
     else:
         await ctx.send(embed=discord.Embed(
             title='Wrong channel!',
