@@ -27,9 +27,6 @@ client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 client.id_user_zacky = 625987962781433867
 client.id_channel_suggestion_submittions = 726630212519067725
-messages_to_clean = {
-    726611465854779433 : 730017571709124718
-}
 
 def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
@@ -37,15 +34,24 @@ def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_polls = int(sheet.cell(3, 1).value)
     return int(sheet.cell(1, 1).value), int(sheet.cell(2, 1).value), int(sheet.cell(3, 1).value)
 
+def is_zacky(ctx):
+    return ctx.author.id == client.id_user_zacky
+
 @client.event
 async def on_ready():
     print(sync_channel_ids())
     try:
         await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
-        for channel in messages_to_clean:
-            await client.get_channel(channel).fetch_message(id=messages_to_clean[channel]).delete()
     finally:
         pass
+
+@client.command
+@commands.check(is_zacky)
+async def delete_message(ctx, channel : discord.TextChannel, message_id):
+    try:
+        await channel.fetch_message(id=message_id).delete()
+    except Exception as e:
+        await ctx.send(e)
 
 @client.command(aliases=['setchannel'])
 @commands.has_guild_permissions(manage_channels=True)
