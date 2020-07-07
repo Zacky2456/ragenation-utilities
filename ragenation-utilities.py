@@ -129,15 +129,7 @@ async def create_poll(ctx, *, to_poll):
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
     client.minecraft_server_stats = literal_eval(node_or_string=urlopen(url="https://api.mcsrvstat.us/2/play.ragenation.tk").read().decode().replace('false', 'False').replace('true', 'True'))
-    
-    # Converting the list of online players to
-    # string before sending it as a message because 
-    # then it appears in a square brackets and 
-    # quotations format and stuff
-    online_players = ''
-    for player in client.minecraft_server_stats['players']['list']:
-        online_players = online_players + '\n' + player
-    
+
     await ctx.send(embed=discord.Embed(
         title="Server Status",
         color=discord.Color.blue()
@@ -156,10 +148,6 @@ async def count_members(ctx):
     ).add_field(
         name='Max Players',
         value=client.minecraft_server_stats['players']['max'],
-        inline=True
-    ).add_field(
-        name='List of online Players',
-        value=online_players,
         inline=True
     ).set_thumbnail(
         url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
