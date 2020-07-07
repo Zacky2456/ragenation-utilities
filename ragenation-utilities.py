@@ -47,11 +47,12 @@ async def on_ready():
 
 @client.command()
 @commands.check(is_zacky)
-async def delete_message(ctx, channel : discord.TextChannel, message_id):
-    try:
-        await channel.fetch_message(id=message_id).delete()
-    except Exception as e:
-        await ctx.send(e)
+async def delete_message(ctx, channel : discord.TextChannel, message_id : int):
+    await channel.fetch_message(id=message_id).delete()
+        
+@delete_message.error()
+async def clear_error(ctx, error):
+    await ctx.send(error)
 
 @client.command(aliases=['setchannel'])
 @commands.has_guild_permissions(manage_channels=True)
