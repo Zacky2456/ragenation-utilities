@@ -126,6 +126,10 @@ async def make_an_announcement(ctx, *, to_announce):
                 color=discord.Color.red()
             ), delete_after = 120
         )
+        try:
+            await ctx.message.delete()
+        finally:
+            return
         
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, *, to_poll):
