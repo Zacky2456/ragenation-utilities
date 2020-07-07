@@ -43,7 +43,7 @@ async def on_ready():
     try:
         await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
         for channel in messages_to_clean:
-            await client.get_channel(channel).fetch_message(messages_to_clean[channel]).delete()
+            await client.get_channel(channel).fetch_message(id=messages_to_clean[channel]).delete()
     finally:
         pass
 
