@@ -81,7 +81,7 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
 @set_channel.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(embde=discord.Embed(
+        await ctx.send(embed=discord.Embed(
             title="Missing Arguments",
             description="Please follow the following format for this command\n`.SetChannel [\"announcementsChannel\" or \"PollsChannel\" or \"BotLogsChannel\"] <TextChannel>`",
             color=discord.Color.red()
@@ -139,7 +139,7 @@ async def create_poll(ctx, *, to_poll):
             await ctx.send(embed=discord.Embed(
                 description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
                 color = discord.Color.green()
-            ))
+            ), delete_after=120)
     else:
         await ctx.send(embed=discord.Embed(
             title='Wrong channel!',
