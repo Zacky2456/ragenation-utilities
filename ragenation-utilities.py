@@ -133,12 +133,13 @@ async def create_poll(ctx, *, to_poll):
         ))
         await message.add_reaction("👍")
         await message.add_reaction("👎")
-        await ctx.message.delete()
-        await ctx.send(embed=discord.Embed(
-            title="Submitted!",
-            description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
-            color = discord.Color.green()
-        ))
+        try:
+            await ctx.message.delete()
+        finally:
+            await ctx.send(embed=discord.Embed(
+                description="✅ Your suggestion is sucessfully submitted to <#{client.id_channel_polls}>! ✅",
+                color = discord.Color.green()
+            ))
     else:
         await ctx.send(embed=discord.Embed(
             title='Wrong channel!',
