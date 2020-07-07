@@ -17,7 +17,7 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(node_or_string=urlopen(url=os.getenv('API_SHEETS_CERDSLINK')).read().decode()), scopes=scope) 
+creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_dict=literal_eval(node_or_string=urlopen(url=os.getenv('API_SHEETS_CERDSLINK')).read().decode()), scopes=scope)
 client = gspread.authorize(creds)
 sheet = client.open("api_sheets_rn").sheet1
 
@@ -51,7 +51,7 @@ async def delete_message(ctx, channel : discord.TextChannel, message_id : int):
     msg = await channel.fetch_message(message_id)
     await msg.delete()
     await ctx.author.send(f'`{msg}` deleted successfully')
-        
+
 @delete_message.error
 async def clear_error(ctx, error):
     await ctx.author.send(error)
@@ -59,13 +59,13 @@ async def clear_error(ctx, error):
 @client.command(aliases=['setchannel'])
 @commands.has_guild_permissions(manage_channels=True)
 async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChannel):
-    
+
     done_embed = discord.Embed(
         title="Success ✅",
         description=f"✅ <#{channel_to_set.id}> is now set as the channel for {channel_to_set_for}",
         color=discord.Color.green()
     )
-    
+
     if channel_to_set_for.lower() in ('logs', 'botlogs', 'logschannel', 'botlogschannel', 'blotlogchannel', 'botlog', 'log', 'logchannel'):
         sheet.update_cell(1, 1, "'"+str(channel_to_set.id))
         await ctx.send(embed=done_embed)
@@ -75,7 +75,7 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     elif channel_to_set_for.lower() in ('polls', 'pollschannel', 'pollchannel', 'suggestionschannel', 'suggestions'):
         sheet.update_cell(3, 1, "'"+str(channel_to_set.id))
         await ctx.send(embed=done_embed)
-    
+
     sync_channel_ids()
 
 @set_channel.error
@@ -104,12 +104,12 @@ async def clear_error(ctx, error):
 @client.command(aliases=["announce", "makeannouncement"])
 async def make_an_announcement(ctx, *, to_announce):
     if client.get_channel(client.id_channel_announcements).permissions_for(ctx.author).send_messages:
-        try: 
+        try:
             title, description = to_announce.split(",")
         except Exception as e:
             await ctx.send(".announce This is a title, This is a description seperated by a comma there. only use one comma in your command")
             return
-    
+
         try:
             await client.get_channel(client.id_channel_announcements).send(content="@everyone", embed=discord.Embed(
                 title=title,
@@ -130,7 +130,7 @@ async def make_an_announcement(ctx, *, to_announce):
             await ctx.message.delete()
         finally:
             return
-        
+
 @client.command(aliases=["poll", "createpoll", "suggest"])
 async def create_poll(ctx, *, to_poll):
     if ctx.channel.id == client.id_channel_suggestion_submittions:
@@ -157,7 +157,7 @@ async def create_poll(ctx, *, to_poll):
             title='Wrong channel!',
             description=f'You can only use this command in <#{client.id_channel_suggestion_submittions}>!'
         ))
-    
+
 @client.command(aliases=['status', 'serverstatus', 'members'])
 async def count_members(ctx):
     client.minecraft_server_stats = literal_eval(node_or_string=urlopen(url="https://api.mcsrvstat.us/2/play.ragenation.tk").read().decode().replace('false', 'False').replace('true', 'True'))
@@ -185,16 +185,4 @@ async def count_members(ctx):
         url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
     ))
 
-@client.command()
-async def help(ctx):
-    await ctx.send(embed=discord.Embed(
-        title="Ragenation | Utilities Commands",
-        description="`-suggest <ToSuggest>` : Suggest something, anything\n`-announce <ToAnnounce>` : Announce something in this server\n`-help` : yes\n`-Status` : Status of the minecraft server\n`-SetChannel [\"announcementsChannel\" or \"PollsChannel\" or \"BotLogsChannel\"] <TextChannelToSet>` : This is for telling me which channel is for what",
-        color=discord.Color.from_rgb(0, 0, 25)
-    ).set_thumbnail(
-        url="https://cdn.discordapp.com/icons/724544421416140801/f79ad4304fc0ff464be8170f757cc0e7.webp"
-    ).set_footer(
-        text="For support, please contact Zacky#9543"
-    ))
-    
 client.run(client_secret)
