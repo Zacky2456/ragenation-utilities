@@ -72,9 +72,9 @@ async def set_channel(ctx, channel_to_set_for, channel_to_set : discord.TextChan
     elif channel_to_set_for.lower() in ('polls', 'pollschannel', 'pollchannel', 'suggestionschannel', 'suggestions'):
         sheet.update_cell(3, 1, "'"+str(channel_to_set.id))
         await ctx.send(embed=done_embed)
-        
+    
     sync_channel_ids()
-                
+
 @set_channel.error
 async def clear_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
