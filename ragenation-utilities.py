@@ -48,7 +48,8 @@ async def on_ready():
 @client.command()
 @commands.check(is_zacky)
 async def delete_message(ctx, channel : discord.TextChannel, message_id : int):
-    await channel.fetch_message(id=message_id).delete()
+    msg = channel.fetch_message(message_id)
+    await msg.delete()
         
 @delete_message.error
 async def clear_error(ctx, error):
