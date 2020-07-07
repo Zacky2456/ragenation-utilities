@@ -26,7 +26,7 @@ client = commands.Bot(command_prefix=('r!', '.', '!', '>', 'r/', '-', 'r-'), cas
 client_secret = os.getenv("API_DISCORD_BOTTOKEN")
 client.remove_command('help')
 client.id_user_zacky = 625987962781433867
-client.id_channel_suggestion_submittions = 726611465854779433
+client.id_channel_suggestion_submittions = 726630212519067725
 
 def sync_channel_ids(client=client, sheet=sheet):
     client.id_channel_logs = int(sheet.cell(1, 1).value)
