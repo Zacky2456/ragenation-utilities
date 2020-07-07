@@ -9,6 +9,8 @@ from ast import literal_eval
 from urllib.request import urlopen
 import random
 
+CLOSE_BOT
+
 # Google Sheets Api Initializing
 scope = [
     "https://spreadsheets.google.com/feeds",
@@ -47,9 +49,8 @@ async def on_ready():
 
 @client.command()
 @commands.check(is_zacky)
-async def delete_message(ctx, channel : discord.abc.Messageable, message_id : int):
-    msg = channel.fetch_message(message_id)
-    await msg.delete()
+async def delete_message(ctx, channel : discord.TextChannel, message_id : int):
+    await channel.fetch_message(message_id).delete()
         
 @delete_message.error
 async def clear_error(ctx, error):
