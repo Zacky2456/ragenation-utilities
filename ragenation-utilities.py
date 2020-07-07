@@ -39,12 +39,13 @@ def sync_channel_ids(client=client, sheet=sheet):
 
 @client.event
 async def on_ready():
+    print(sync_channel_ids())
     try:
         await client.get_channel(client.id_channel_logs).send("Bot has rebooted, rebooted successful")
         for channel in messages_to_clean:
             await client.get_channel(channel).fetch_message(messages_to_clean[channel]).delete()
     finally:
-        print(sync_channel_ids())
+        pass
 
 @client.command(aliases=['setchannel'])
 @commands.has_guild_permissions(manage_channels=True)
