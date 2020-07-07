@@ -120,7 +120,7 @@ async def make_an_announcement(ctx, *, to_announce):
             await ctx.send("Looks like I am missing some permissions or something")
     else:
         await ctx.send(
-            embed=discord.embed(
+            embed=discord.Embed(
                 title="Missing Permissions!",
                 description=f"You need the ***`Send Message`*** Permission in the channel that is currently labeled as the announcements channel (<#{client.id_channel_announcements}>)",
                 color=discord.Color.red()
